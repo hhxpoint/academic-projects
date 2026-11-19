@@ -1,0 +1,25 @@
+00 1007     MOV A, #07H
+02 1C80     MOV 80H, A
+04 0400     MOV R0, #00H
+06 0501     MOV R1, #01H
+            T_LOOP:
+08 09           MOV A, R1
+09 6480         SUB A, 80H
+0B 8019         JC T_DONE
+0D A416         JZ T_LAST
+0F 08           MOV A, R0
+10 49           ADD A, R1
+11 0C           MOV R0, A
+12 6901         ADD R1, #01H
+14 7808         JMP T_LOOP
+            T_LAST:
+16 08           MOV A, R0
+17 49           ADD A, R1
+18 0C           MOV R0, A
+            T_DONE:
+19 08           MOV A, R0
+1A 1C81         MOV 81H, A
+            END_T:
+1C 8C           NOP
+1D 781C         JMP END_T
+            

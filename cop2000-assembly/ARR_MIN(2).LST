@@ -1,0 +1,36 @@
+00 7090         MOV A, 90H
+02 0C           MOV R0, A
+            
+03 08           MOV A, R0
+04 6491         SUB A, 91H
+06 800A         JC UPDATE_1
+08 780D         JMP NEXT_1
+            UPDATE_1:
+0A 7091         MOV A, 91H
+0C 0C           MOV R0, A
+            NEXT_1:
+            
+0D 08           MOV A, R0
+0E 6492         SUB A, 92H
+10 8014         JC UPDATE_2
+12 7817         JMP NEXT_2
+            UPDATE_2:
+14 7092         MOV A, 92H
+16 0C           MOV R0, A
+            NEXT_2:
+            
+17 08           MOV A, R0
+18 6493         SUB A, 93H
+1A 801E         JC UPDATE_3
+1C 7821         JMP NEXT_3
+            UPDATE_3:
+1E 7093         MOV A, 93H
+20 0C           MOV R0, A
+            NEXT_3:
+            
+21 08           MOV A, R0
+22 1C80         MOV 80H, A
+            END_MAX:
+24 8C           NOP
+25 7824         JMP END_MAX
+            

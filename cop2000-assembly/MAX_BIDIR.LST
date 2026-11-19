@@ -1,0 +1,76 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 0480     MOV R0, #80H
+3E 0589     MOV R1, #89H
+40 18       MOV A, @R0
+41 1C90     MOV 90H, A
+            LOOP1:
+43 08           MOV A, R0
+44 59           SUB A, R1
+45 804B         JC CMPAIR
+47 A46E         JZ OUTPUT
+49 786E         JMP OUTPUT
+            CMPAIR:
+4B 18           MOV A, @R0
+4C 0E           MOV R2, A
+4D 0A           MOV A, R2
+4E 5D           SUB A, @R1
+4F 805D         JC RBIG
+51 0A           MOV A, R2
+52 0F           MOV R3, A
+53 0B           MOV A, R3
+54 6490         SUB A, 90H
+56 8067         JC SKIP1
+58 0A           MOV A, R2
+59 1C90         MOV 90H, A
+5B 7868         JMP ADV
+            RBIG:
+5D 19           MOV A, @R1
+5E 0E           MOV R2, A
+5F 0A           MOV A, R2
+60 6490         SUB A, 90H
+62 8068         JC ADV
+64 0A           MOV A, R2
+65 1C90         MOV 90H, A
+            SKIP1:
+67 8C           NOP
+            ADV:
+68 6801         ADD R0, #01H
+6A 6D01         SUB R1, #01H
+6C 7843         JMP LOOP1
+            OUTPUT:
+6E 7090         MOV A, 90H
+70 6080         SUB A, #80H
+72 1C91         MOV 91H, A
+            DONE:
+74 8C           NOP
+75 7874         JMP DONE
+            

@@ -1,0 +1,69 @@
+00 0508         MOV R1, #08H
+02 0490         MOV R0, #90H
+            INITZ:
+04 1000         MOV A, #00H
+06 14           MOV @R0, A
+            
+07 08           MOV A, R0
+08 5001         ADD A, #01H
+0A 0C           MOV R0, A
+            
+0B 09           MOV A, R1
+0C 6001         SUB A, #01H
+0E 0D           MOV R1, A
+0F A413         JZ INIZDN
+11 7804         JMP INITZ
+            
+            INIZDN:
+13 1001         MOV A, #01H
+15 1C90         MOV 90H, A
+            
+17 7080         MOV A, 80H
+19 0F           MOV R3, A
+            
+            OUTER:
+1A 0B           MOV A, R3
+1B 5000         ADD A, #00H
+1D A442         JZ ODONE
+            
+1F 0591         MOV R1, #91H
+            
+            INNER:
+21 0B           MOV A, R3
+22 5091         ADD A, #91H
+24 0E           MOV R2, A
+            
+25 09           MOV A, R1
+26 5A           SUB A, R2
+27 802B         JC INPROC
+29 783C         JMP INEXT
+            
+            INPROC:
+2B 09           MOV A, R1
+2C 6001         SUB A, #01H
+2E 0C           MOV R0, A
+2F 18           MOV A, @R0
+30 0E           MOV R2, A
+            
+31 09           MOV A, R1
+32 0C           MOV R0, A
+33 18           MOV A, @R0
+34 4A           ADD A, R2
+35 14           MOV @R0, A
+            
+36 09           MOV A, R1
+37 5001         ADD A, #01H
+39 0D           MOV R1, A
+            
+3A 7821         JMP INNER
+            
+            INEXT:
+3C 0B           MOV A, R3
+3D 6001         SUB A, #01H
+3F 0F           MOV R3, A
+40 781A         JMP OUTER
+            
+            ODONE:
+42 8C           NOP
+43 7842         JMP ODONE
+            

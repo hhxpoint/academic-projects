@@ -1,0 +1,48 @@
+00 7090         MOV A,90H
+02 6491         SUB A,91H
+04 8009         JC NEG1
+06 0C           MOV R0,A
+07 780E         JMP PAIR2
+            NEG1:
+09 7091         MOV A,91H
+0B 6490         SUB A,90H
+0D 0C           MOV R0,A
+            PAIR2:
+0E 7091         MOV A,91H
+10 6492         SUB A,92H
+12 8017         JC NEG2
+14 0D           MOV R1,A
+15 781C         JMP CMP2
+            NEG2:
+17 7092         MOV A,92H
+19 6491         SUB A,91H
+1B 0D           MOV R1,A
+            CMP2:
+1C 09           MOV A,R1
+1D 58           SUB A,R0
+1E 8022         JC PAIR3
+20 09           MOV A,R1
+21 0C           MOV R0,A
+            PAIR3:
+22 7092         MOV A,92H
+24 6493         SUB A,93H
+26 802B         JC NEG3
+28 0D           MOV R1,A
+29 7830         JMP CMP3
+            NEG3:
+2B 7093         MOV A,93H
+2D 6492         SUB A,92H
+2F 0D           MOV R1,A
+            CMP3:
+30 09           MOV A,R1
+31 58           SUB A,R0
+32 8036         JC DONE_D
+34 09           MOV A,R1
+35 0C           MOV R0,A
+            DONE_D:
+36 08           MOV A,R0
+37 1C80         MOV 80H,A
+            END_D:
+39 8C           NOP
+3A 7839         JMP END_D
+            

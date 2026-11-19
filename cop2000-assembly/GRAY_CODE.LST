@@ -1,0 +1,31 @@
+00 1005     MOV A, #05H
+02 1C80     MOV 80H, A
+04 0400     MOV R0, #00H
+06 0500     MOV R1, #00H
+08 0608     MOV R2, #08H
+            G_LOOP:
+0A 0A           MOV A, R2
+0B 6001         SUB A, #01H
+0D 8024         JC G_DONE
+0F A424         JZ G_DONE
+11 0E           MOV R2, A
+12 08           MOV A, R0
+13 44           RL A
+14 0C           MOV R0, A
+15 7080         MOV A, 80H
+17 40           RR A
+18 1C80         MOV 80H, A
+1A 801E         JC G_SET
+1C 780A         JMP G_LOOP
+            G_SET:
+1E 08           MOV A, R0
+1F 5001         ADD A, #01H
+21 0C           MOV R0, A
+22 780A         JMP G_LOOP
+            G_DONE:
+24 08           MOV A, R0
+25 1C81         MOV 81H, A
+            END_G:
+27 8C           NOP
+28 7827         JMP END_G
+            

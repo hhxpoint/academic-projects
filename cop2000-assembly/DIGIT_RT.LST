@@ -1,0 +1,26 @@
+00 1013     MOV A, #13H
+02 1C80     MOV 80H, A
+04 7080     MOV A, 80H
+06 6009     SUB A, #09H
+08 8022     JC DONE
+0A A41C     JZ SPECIAL
+0C 1C80     MOV 80H, A
+0E 7810     JMP AGAIN
+            AGAIN:
+10 7080         MOV A, 80H
+12 6009         SUB A, #09H
+14 8022         JC DONE
+16 A41C         JZ SPECIAL
+18 1C80         MOV 80H, A
+1A 7810         JMP AGAIN
+            SPECIAL:
+1C 1009         MOV A, #09H
+1E 1C81         MOV 81H, A
+20 7826         JMP END_P
+            DONE:
+22 7080         MOV A, 80H
+24 1C81         MOV 81H, A
+            END_P:
+26 8C           NOP
+27 7826         JMP END_P
+            

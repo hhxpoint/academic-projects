@@ -1,0 +1,119 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 040A     MOV R0, #0AH
+            PASS:
+3E 08           MOV A, R0
+3F 20FF         AND A, #255
+41 A499         JZ RESTORE
+43 0581         MOV R1, #81H
+            ODD:
+45 09           MOV A, R1
+46 6089         SUB A, #89H
+48 804E         JC ODDOK
+4A A44E         JZ ODDOK
+4C 786D         JMP EVEN
+            ODDOK:
+4E 09           MOV A, R1
+4F 5001         ADD A, #01H
+51 0E           MOV R2, A
+52 0A           MOV A, R2
+53 6089         SUB A, #89H
+55 805B         JC ODDCMP
+57 A45B         JZ ODDCMP
+59 786D         JMP EVEN
+            ODDCMP:
+5B 19           MOV A, @R1
+5C 0F           MOV R3, A
+5D 0B           MOV A, R3
+5E 5E           SUB A, @R2
+5F 8069         JC ODDNX
+61 1A           MOV A, @R2
+62 1C90         MOV 90H, A
+64 0B           MOV A, R3
+65 16           MOV @R2, A
+66 7090         MOV A, 90H
+68 15           MOV @R1, A
+            ODDNX:
+69 6902         ADD R1, #02H
+6B 7845         JMP ODD
+            EVEN:
+6D 0580         MOV R1, #80H
+            EVLP:
+6F 09           MOV A, R1
+70 6089         SUB A, #89H
+72 8076         JC EVEOK
+74 7895         JMP PASSDONE
+            EVEOK:
+76 09           MOV A, R1
+77 5001         ADD A, #01H
+79 0E           MOV R2, A
+7A 0A           MOV A, R2
+7B 6089         SUB A, #89H
+7D 8083         JC EVCMP
+7F A483         JZ EVCMP
+81 7895         JMP PASSDONE
+            EVCMP:
+83 19           MOV A, @R1
+84 0F           MOV R3, A
+85 0B           MOV A, R3
+86 5E           SUB A, @R2
+87 8091         JC EVNX
+89 1A           MOV A, @R2
+8A 1C90         MOV 90H, A
+8C 0B           MOV A, R3
+8D 16           MOV @R2, A
+8E 7090         MOV A, 90H
+90 15           MOV @R1, A
+            EVNX:
+91 6902         ADD R1, #02H
+93 786F         JMP EVLP
+            PASSDONE:
+95 6C01         SUB R0, #01H
+97 783E         JMP PASS
+            RESTORE:
+99 0480         MOV R0, #80H
+9B 0589         MOV R1, #89H
+            RLOOP:
+9D 09           MOV A, R1
+9E 5010         ADD A, #10H
+A0 0E           MOV R2, A
+A1 19           MOV A, @R1
+A2 6080         SUB A, #80H
+A4 16           MOV @R2, A
+A5 09           MOV A, R1
+A6 58           SUB A, R0
+A7 A4AD         JZ DONE
+A9 6D01         SUB R1, #01H
+AB 789D         JMP RLOOP
+            DONE:
+AD 8C           NOP
+AE 78AD         JMP DONE
+            

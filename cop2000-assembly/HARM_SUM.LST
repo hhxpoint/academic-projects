@@ -1,0 +1,37 @@
+00 7080         MOV A,80H
+02 0C           MOV R0,A
+03 7080         MOV A,80H
+05 0500         MOV R1,#00H
+            DIV2:
+07 6002         SUB A,#02H
+09 8017         JC D2DONE
+0B 6901         ADD R1,#01H
+0D A417         JZ D2DONE
+0F 0E           MOV R2,A
+10 6001         SUB A,#01H
+12 A417         JZ D2DONE
+14 0E           MOV R2,A
+15 7807         JMP DIV2
+            D2DONE:
+17 08           MOV A,R0
+18 49           ADD A,R1
+19 0C           MOV R0,A
+1A 7080         MOV A,80H
+1C 0500         MOV R1,#00H
+            DIV3:
+1E 6003         SUB A,#03H
+20 802E         JC D3DONE
+22 6901         ADD R1,#01H
+24 A42E         JZ D3DONE
+26 0E           MOV R2,A
+27 6001         SUB A,#01H
+29 A42E         JZ D3DONE
+2B 0E           MOV R2,A
+2C 781E         JMP DIV3
+            D3DONE:
+2E 08           MOV A,R0
+2F 49           ADD A,R1
+30 1C81         MOV 81H,A
+32 8C           NOP
+33 7833         JMP $
+            

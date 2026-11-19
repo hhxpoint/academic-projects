@@ -1,0 +1,85 @@
+00 1014     MOV A, #20
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10CE     MOV A, #-50
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 1064     MOV A, #100
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 10F6     MOV A, #-10
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 104D     MOV A, #77
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 109D     MOV A, #-99
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 1021     MOV A, #33
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 10BE     MOV A, #-66
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1058     MOV A, #88
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 10D4     MOV A, #-44
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 0480     MOV R0, #80H
+3E 0589     MOV R1, #89H
+            LOOP1:
+40 09           MOV A, R1
+41 58           SUB A, R0
+42 A465         JZ LOOPRE
+            
+44 08           MOV A, R0
+45 0E           MOV R2, A
+46 5001         ADD A, #01H
+48 0F           MOV R3, A
+            LOOP2:
+49 09           MOV A, R1
+4A 5A           SUB A, R2
+4B A457         JZ LOOP11
+            
+4D 1B           MOV A, @R3
+4E 5E           SUB A, @R2
+4F 805B         JC LOOP3
+            LOOP22:
+51 6A01         ADD R2, #01H
+53 6B01         ADD R3, #01H
+55 7849         JMP LOOP2
+            LOOP11:
+57 6D01         SUB R1, #01H
+59 7840         JMP LOOP1
+            LOOP3:
+5B 1A           MOV A, @R2
+5C 1C90         MOV 90H, A
+5E 1B           MOV A, @R3
+5F 16           MOV @R2, A
+60 7090         MOV A, 90H
+62 17           MOV @R3, A
+63 7851         JMP LOOP22
+            LOOPRE:
+65 0480         MOV R0, #80H
+67 0589         MOV R1, #89H
+            LOOP4:
+69 09           MOV A, R1
+6A 5010         ADD A, #10H
+6C 0E           MOV R2, A
+            
+6D 19           MOV A, @R1
+6E 6080         SUB A, #80H
+70 16           MOV @R2, A
+            
+71 09           MOV A, R1
+72 58           SUB A, R0
+73 A479         JZ LOOPEND
+75 6D01         SUB R1, #01H
+77 7869         JMP LOOP4
+            LOOPEND:
+79 8C           NOP
+7A 7879         JMP LOOPEND
+            

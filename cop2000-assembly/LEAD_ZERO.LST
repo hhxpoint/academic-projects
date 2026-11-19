@@ -1,0 +1,38 @@
+            ; 初始化：待检测数据 10H 存入80H单元，计数器R2清零
+00 1010     MOV A, #10H
+02 1C80     MOV 80H, A
+04 0600     MOV R2, #00H
+            
+            LOOP:
+                ; 检测最高位：与80H（二进制10000000）按位与
+06 7080         MOV A, 80H
+08 2080         AND A, #80H
+0A A40E         JZ CONTINUE   ; 结果为0 → 最高位是0 → 跳转到循环处理
+0C 781E         JMP STORE     ; 结果非0 → 最高位是1 → 直接结束循环
+            
+            CONTINUE:
+                ; 最高位是0，左移一位
+0E 7080         MOV A, 80H
+10 44           RL A
+11 1C80         MOV 80H, A
+                
+                ; 计数器R2加1（通过累加器A中转，符合指令规则）
+13 0A           MOV A, R2
+14 5001         ADD A, #01H
+16 0E           MOV R2, A
+                
+                ; 循环上限保护：最多执行8次，防止数据全0时死循环
+17 0A           MOV A, R2
+18 6008         SUB A, #08H
+1A A41E         JZ STORE
+                
+1C 7806         JMP LOOP
+            
+            STORE:
+                ; 将最终前导零计数结果存入81H单元
+1E 0A           MOV A, R2
+1F 1C81         MOV 81H, A
+            DONE:
+21 8C           NOP
+22 7821         JMP DONE
+            

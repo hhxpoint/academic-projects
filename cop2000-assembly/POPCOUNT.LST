@@ -1,0 +1,26 @@
+            ; ============= 初始化 =============
+00 0700     MOV R3, #00H
+02 9080     MOV R0, 80H
+            ; ============= 主循环 =============
+            COUNT_LOOP:
+04 08           MOV A, R0
+05 20FF         AND A, #255
+07 A417         JZ COUNT_END
+            
+09 08           MOV A, R0
+0A 2001         AND A, #01H
+0C A412         JZ COUNT_SHIFT
+            
+0E 0B           MOV A, R3
+0F 5001         ADD A, #01H
+11 0F           MOV R3, A
+            COUNT_SHIFT:
+12 08           MOV A, R0
+13 40           RR A
+14 0C           MOV R0, A
+15 7804         JMP COUNT_LOOP
+            ; ============= 结束 =============
+            COUNT_END:
+17 8C           NOP
+18 7817         JMP COUNT_END
+            

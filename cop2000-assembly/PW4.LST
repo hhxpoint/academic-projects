@@ -1,0 +1,37 @@
+            DIVLOOP:
+00 7080         MOV A, 80H
+02 5000         ADD A, #00H
+04 A427         JZ NOTP4
+06 6001         SUB A, #01H
+08 A42D         JZ YESP4
+0A 7080         MOV A, 80H
+0C 0500         MOV R1, #00H
+            DBY4:
+0E 6004         SUB A, #04H
+10 801A         JC DEND
+12 0C           MOV R0, A
+13 09           MOV A, R1
+14 5001         ADD A, #01H
+16 0D           MOV R1, A
+17 08           MOV A, R0
+18 780E         JMP DBY4
+            DEND:
+1A 5004         ADD A, #04H
+1C 5000         ADD A, #00H
+1E A422         JZ DIV_OK
+20 7827         JMP NOTP4
+            DIV_OK:
+22 09           MOV A, R1
+23 1C80         MOV 80H, A
+25 7800         JMP DIVLOOP
+            NOTP4:
+27 1000         MOV A, #00H
+29 1C81         MOV 81H, A
+2B 7831         JMP FIN
+            YESP4:
+2D 1001         MOV A, #01H
+2F 1C81         MOV 81H, A
+            FIN:
+31 8C           NOP
+32 7831         JMP FIN
+            

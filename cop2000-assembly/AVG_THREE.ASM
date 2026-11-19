@@ -1,0 +1,25 @@
+    MOV A,80H
+    MOV R0,A
+    MOV A,81H
+    ADD A,R0
+    MOV R0,A
+    MOV A,82H
+    ADD A,R0
+    MOV R1,#00H
+DIV:
+    SUB A,#03H
+    JC QUOT
+    ADD R1,#01H
+    AND A,#0FFH
+    JZ STORE
+    JMP DIV
+QUOT:
+    ADD A,#03H
+    AND A,#0FFH
+    JZ STORE
+STORE:
+    MOV A,R1
+    MOV 83H,A
+DONE:
+    NOP
+    JMP DONE

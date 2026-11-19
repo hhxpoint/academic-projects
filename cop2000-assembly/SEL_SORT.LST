@@ -1,0 +1,85 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 0480     MOV R0, #80H
+            OUTER:
+3E 08           MOV A, R0
+3F 6089         SUB A, #89H
+41 A46A         JZ RESTORE
+43 08           MOV A, R0
+44 0D           MOV R1, A
+45 6801         ADD R0, #01H
+47 08           MOV A, R0
+48 0E           MOV R2, A
+49 6C01         SUB R0, #01H
+            INNER:
+4B 0A           MOV A, R2
+4C 608A         SUB A, #8AH
+4E A45A         JZ SWAPCHK
+50 1A           MOV A, @R2
+51 5D           SUB A, @R1
+52 8056         JC NOUPD
+54 0A           MOV A, R2
+55 0D           MOV R1, A
+            NOUPD:
+56 6A01         ADD R2, #01H
+58 784B         JMP INNER
+            SWAPCHK:
+5A 09           MOV A, R1
+5B 58           SUB A, R0
+5C A466         JZ NOSWAP
+5E 18           MOV A, @R0
+5F 1C90         MOV 90H, A
+61 19           MOV A, @R1
+62 14           MOV @R0, A
+63 7090         MOV A, 90H
+65 15           MOV @R1, A
+            NOSWAP:
+66 6801         ADD R0, #01H
+68 783E         JMP OUTER
+            RESTORE:
+6A 0480         MOV R0, #80H
+6C 0589         MOV R1, #89H
+            RLOOP:
+6E 08           MOV A, R0
+6F 5010         ADD A, #10H
+71 0E           MOV R2, A
+72 18           MOV A, @R0
+73 6080         SUB A, #80H
+75 16           MOV @R2, A
+76 08           MOV A, R0
+77 59           SUB A, R1
+78 A47E         JZ DONE
+7A 6801         ADD R0, #01H
+7C 786E         JMP RLOOP
+            DONE:
+7E 8C           NOP
+7F 787E         JMP DONE
+            

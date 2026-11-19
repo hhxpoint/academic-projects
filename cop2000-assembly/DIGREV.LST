@@ -1,0 +1,36 @@
+00 7080     MOV A, 80H
+02 0500         MOV R1, #00H
+            TENS_LOOP:
+04 6010         SUB A, #10H
+06 8010         JC GOT_ONES
+08 0C           MOV R0, A
+09 09           MOV A, R1
+0A 5001         ADD A, #01H
+0C 0D           MOV R1, A
+0D 08           MOV A, R0
+0E 7804         JMP TENS_LOOP
+            GOT_ONES:
+10 5010         ADD A, #10H
+12 0E           MOV R2, A
+13 0400         MOV R0, #00H
+15 0710         MOV R3, #10H
+            MUL_LOOP:
+17 08           MOV A, R0
+18 4A           ADD A, R2
+19 0C           MOV R0, A
+            
+1A 0B           MOV A, R3
+1B 6001         SUB A, #01H
+1D 0F           MOV R3, A
+1E A422         JZ DO_ADD
+20 7817         JMP MUL_LOOP
+            DO_ADD:
+22 08           MOV A, R0
+23 49           ADD A, R1
+                ; 原直接寻址写法：MOV 81H, A
+                ; 替换为寄存器间接寻址写法
+24 0481         MOV R0, #81H   ; 把目标地址81H存入指针寄存器R0
+26 14           MOV @R0, A     ; 通过R0间接寻址，将A的值写入81H内存单元
+            END_R:
+27 8C           NOP
+            

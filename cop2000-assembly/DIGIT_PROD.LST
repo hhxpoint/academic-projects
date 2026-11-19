@@ -1,0 +1,34 @@
+00 7080         MOV A,80H
+02 0500         MOV R1,#00H
+            TLOOP:
+04 600A         SUB A,#10
+06 800E         JC TDONE
+08 A40E         JZ TDONE
+0A 6901         ADD R1,#01H
+0C 7804         JMP TLOOP
+            TDONE:
+0E 8012         JC TREST
+10 7814         JMP TCONT
+            TREST:
+12 500A         ADD A,#10
+            TCONT:
+14 0E           MOV R2,A
+15 0700         MOV R3,#00H
+17 09           MOV A,R1
+18 20FF         AND A,#255
+1A A427         JZ MDONE
+            MLOOP:
+1C 0B           MOV A,R3
+1D 4A           ADD A,R2
+1E 0F           MOV R3,A
+1F 09           MOV A,R1
+20 6001         SUB A,#01H
+22 A427         JZ MDONE
+24 0D           MOV R1,A
+25 781C         JMP MLOOP
+            MDONE:
+27 0B           MOV A,R3
+28 1C81         MOV 81H,A
+2A 8C           NOP
+2B 782B         JMP $
+            

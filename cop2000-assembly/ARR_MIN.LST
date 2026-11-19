@@ -1,0 +1,26 @@
+00 7090         MOV A,90H
+02 6491         SUB A,91H
+04 800A         JC SWAP1
+06 A40C         JZ SKIP1
+08 780C         JMP SKIP1
+            SWAP1:
+0A 7091         MOV A,91H
+            SKIP1:
+0C 6492         SUB A,92H
+0E 8014         JC SWAP2
+10 A416         JZ SKIP2
+12 7816         JMP SKIP2
+            SWAP2:
+14 7092         MOV A,92H
+            SKIP2:
+16 6493         SUB A,93H
+18 801E         JC SWAP3
+1A A420         JZ SKIP3
+1C 7820         JMP SKIP3
+            SWAP3:
+1E 7093         MOV A,93H
+            SKIP3:
+20 1C80         MOV 80H,A
+22 8C           NOP
+23 7823         JMP $
+            

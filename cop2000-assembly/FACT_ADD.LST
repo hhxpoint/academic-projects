@@ -1,0 +1,35 @@
+00 1005     MOV A, #05H
+02 1C80     MOV 80H, A
+04 0401     MOV R0, #01H
+            FACT:
+06 7080         MOV A, 80H
+08 20FF         AND A, #255
+0A A429         JZ STORE
+0C 7080         MOV A, 80H
+0E 0D           MOV R1, A
+0F 09           MOV A, R1
+10 0E           MOV R2, A
+11 0700         MOV R3, #00H
+            MUL:
+13 0A           MOV A, R2
+14 20FF         AND A, #255
+16 A41F         JZ MULEND
+18 0B           MOV A, R3
+19 48           ADD A, R0
+1A 0F           MOV R3, A
+1B 6E01         SUB R2, #01H
+1D 7813         JMP MUL
+            MULEND:
+1F 0B           MOV A, R3
+20 0C           MOV R0, A
+21 7080         MOV A, 80H
+23 6001         SUB A, #01H
+25 1C80         MOV 80H, A
+27 7806         JMP FACT
+            STORE:
+29 08           MOV A, R0
+2A 1C81         MOV 81H, A
+            DONE:
+2C 8C           NOP
+2D 782C         JMP DONE
+            

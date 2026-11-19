@@ -1,0 +1,80 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 0481     MOV R0, #81H
+            PASS:
+3E 08           MOV A, R0
+3F 6089         SUB A, #89H
+41 8047         JC GO
+43 A447         JZ GO
+45 7866         JMP RESTORE
+            GO:
+47 08           MOV A, R0
+48 0D           MOV R1, A
+            INSIDE:
+49 09           MOV A, R1
+4A 6080         SUB A, #80H
+4C A462         JZ ENDOFF
+4E 09           MOV A, R1
+4F 6001         SUB A, #01H
+51 0E           MOV R2, A
+52 19           MOV A, @R1
+53 5E           SUB A, @R2
+54 8062         JC ENDOFF
+56 19           MOV A, @R1
+57 1C90         MOV 90H, A
+59 1A           MOV A, @R2
+5A 15           MOV @R1, A
+5B 7090         MOV A, 90H
+5D 16           MOV @R2, A
+5E 6D01         SUB R1, #01H
+60 7849         JMP INSIDE
+            ENDOFF:
+62 6801         ADD R0, #01H
+64 783E         JMP PASS
+            RESTORE:
+66 0480         MOV R0, #80H
+68 0589         MOV R1, #89H
+            RLOOP:
+6A 09           MOV A, R1
+6B 5010         ADD A, #10H
+6D 0E           MOV R2, A
+6E 19           MOV A, @R1
+6F 6080         SUB A, #80H
+71 16           MOV @R2, A
+72 09           MOV A, R1
+73 58           SUB A, R0
+74 A47A         JZ DONE
+76 6D01         SUB R1, #01H
+78 786A         JMP RLOOP
+            DONE:
+7A 8C           NOP
+7B 787A         JMP DONE
+            

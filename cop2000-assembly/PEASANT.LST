@@ -1,0 +1,32 @@
+00 1003     MOV A, #03H
+02 1C80     MOV 80H, A
+04 1005     MOV A, #05H
+06 1C81     MOV 81H, A
+08 0400     MOV R0, #00H
+0A 7081     MOV A, 81H
+0C 0D       MOV R1, A
+0D 7080     MOV A, 80H
+0F 0E       MOV R2, A
+            R_LOOP:
+10 09           MOV A, R1
+11 6001         SUB A, #01H
+13 8023         JC R_DONE
+15 A420         JZ R_LAST
+17 08           MOV A, R0
+18 4A           ADD A, R2
+19 0C           MOV R0, A
+1A 09           MOV A, R1
+1B 6001         SUB A, #01H
+1D 0D           MOV R1, A
+1E 7810         JMP R_LOOP
+            R_LAST:
+20 08           MOV A, R0
+21 4A           ADD A, R2
+22 0C           MOV R0, A
+            R_DONE:
+23 08           MOV A, R0
+24 1C82         MOV 82H, A
+            END_R:
+26 8C           NOP
+27 7826         JMP END_R
+            

@@ -1,0 +1,58 @@
+00 7081         MOV A,81H
+02 20FF         AND A,#255
+04 A445         JZ KZERO
+06 7080         MOV A,80H
+08 0600         MOV R2,#00H
+            BASEM:
+0A 600A         SUB A,#10
+0C 8014         JC BDONE
+0E A414         JZ BDONE
+10 6A01         ADD R2,#01H
+12 780A         JMP BASEM
+            BDONE:
+14 8018         JC BREST
+16 781A         JMP BCONT
+            BREST:
+18 500A         ADD A,#10
+            BCONT:
+1A 0D           MOV R1,A
+1B 0701         MOV R3,#01H
+1D 7081         MOV A,81H
+1F 0C           MOV R0,A
+            MLOOP:
+20 0B           MOV A,R3
+21 0E           MOV R2,A
+22 1000         MOV A,#00H
+24 A437         JZ MZ
+            MMUL:
+26 49           ADD A,R1
+27 802B         JC MCARRY
+29 782D         JMP MNXT
+            MCARRY:
+2B 600A         SUB A,#10
+            MNXT:
+2D 0E           MOV R2,A
+2E 0B           MOV A,R3
+2F 6001         SUB A,#01H
+31 A437         JZ MZ
+33 0F           MOV R3,A
+34 0A           MOV A,R2
+35 7826         JMP MMUL
+            MZ:
+37 0F           MOV R3,A
+38 08           MOV A,R0
+39 6001         SUB A,#01H
+3B A440         JZ MDONE
+3D 0C           MOV R0,A
+3E 7820         JMP MLOOP
+            MDONE:
+40 0B           MOV A,R3
+41 1C82         MOV 82H,A
+43 7849         JMP FIN
+            KZERO:
+45 1001         MOV A,#01H
+47 1C82         MOV 82H,A
+            FIN:
+49 8C           NOP
+4A 784A         JMP $
+            

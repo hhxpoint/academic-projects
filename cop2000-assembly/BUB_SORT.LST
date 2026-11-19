@@ -1,0 +1,79 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 0480     MOV R0, #80H
+3E 0589     MOV R1, #89H
+            OUTER:
+40 09           MOV A, R1
+41 58           SUB A, R0
+42 A463         JZ RESTORE
+44 08           MOV A, R0
+45 0E           MOV R2, A
+46 5001         ADD A, #01H
+48 0F           MOV R3, A
+            INNER:
+49 09           MOV A, R1
+4A 5A           SUB A, R2
+4B A45F         JZ OUTEREND
+4D 1B           MOV A, @R3
+4E 5E           SUB A, @R2
+4F 8059         JC NOSWAP
+51 1A           MOV A, @R2
+52 1C90         MOV 90H, A
+54 1B           MOV A, @R3
+55 16           MOV @R2, A
+56 7090         MOV A, 90H
+58 17           MOV @R3, A
+            NOSWAP:
+59 6A01         ADD R2, #01H
+5B 6B01         ADD R3, #01H
+5D 7849         JMP INNER
+            OUTEREND:
+5F 6D01         SUB R1, #01H
+61 7840         JMP OUTER
+            RESTORE:
+63 0480         MOV R0, #80H
+65 0589         MOV R1, #89H
+            RLOOP:
+67 09           MOV A, R1
+68 5010         ADD A, #10H
+6A 0E           MOV R2, A
+6B 19           MOV A, @R1
+6C 6080         SUB A, #80H
+6E 16           MOV @R2, A
+6F 09           MOV A, R1
+70 58           SUB A, R0
+71 A477         JZ DONE
+73 6D01         SUB R1, #01H
+75 7867         JMP RLOOP
+            DONE:
+77 8C           NOP
+78 7877         JMP DONE
+            

@@ -1,0 +1,22 @@
+00 1010     MOV A, #10H
+02 1C80     MOV 80H, A
+04 7080     MOV A, 80H
+06 20FF     AND A, #255
+08 A414     JZ NO
+0A 7080     MOV A, 80H
+0C 6001     SUB A, #01H
+0E 0C       MOV R0, A
+0F 7080     MOV A, 80H
+11 28       AND A, R0
+12 A41A     JZ YES
+            NO:
+14 1000         MOV A, #00H
+16 1C81         MOV 81H, A
+18 781E         JMP DONE
+            YES:
+1A 1001         MOV A, #01H
+1C 1C81         MOV 81H, A
+            DONE:
+1E 8C           NOP
+1F 781E         JMP DONE
+            

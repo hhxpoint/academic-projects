@@ -1,0 +1,59 @@
+00 7080         MOV A,80H
+02 0400         MOV R0,#0
+04 7080         MOV A,80H
+06 6002         SUB A,#2
+08 804A         JC DONE
+0A 0700         MOV R3,#0
+            HLIM:
+0C 7080         MOV A,80H
+0E 5B           SUB A,R3
+0F 5B           SUB A,R3
+10 8016         JC GOT_LIM
+12 6B01         ADD R3,#1
+14 780C         JMP HLIM
+            GOT_LIM:
+16 0501         MOV R1,#1
+            DIV_LOOP:
+18 09           MOV A,R1
+19 5B           SUB A,R3
+1A 8038         JC CHK_PERF
+1C 6001         SUB A,#1
+1E 8038         JC CHK_PERF
+20 7080         MOV A,80H
+22 0E           MOV R2,A
+            CHK_LOOP:
+23 59           SUB A,R1
+24 802D         JC NOT_DIV
+26 0A           MOV A,R2
+27 59           SUB A,R1
+28 0E           MOV R2,A
+29 A431         JZ IS_DIV
+2B 7823         JMP CHK_LOOP
+            NOT_DIV:
+2D 6901         ADD R1,#1
+2F 7818         JMP DIV_LOOP
+            IS_DIV:
+31 08           MOV A,R0
+32 49           ADD A,R1
+33 0C           MOV R0,A
+34 6901         ADD R1,#1
+36 7818         JMP DIV_LOOP
+            CHK_PERF:
+38 08           MOV A,R0
+39 6480         SUB A,80H
+3B A443         JZ SET_ONE
+3D 1000         MOV A,#0
+3F 1C81         MOV 81H,A
+41 7847         JMP END_P
+            SET_ONE:
+43 1001         MOV A,#1
+45 1C81         MOV 81H,A
+            END_P:
+47 8C           NOP
+48 7847         JMP END_P
+            DONE:
+4A 1000         MOV A,#0
+4C 1C81         MOV 81H,A
+4E 8C           NOP
+4F 784A         JMP DONE
+            

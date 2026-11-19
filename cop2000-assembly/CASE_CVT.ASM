@@ -1,0 +1,16 @@
+MOV A, #'h'
+MOV 80H, A
+MOV A, 80H
+SUB A, #61H
+JC DONE
+MOV A, 80H
+SUB A, #7BH
+JC CONV
+JMP DONE
+CONV:
+    MOV A, 80H
+    SUB A, #20H
+    MOV 80H, A
+DONE:
+    NOP
+    JMP DONE

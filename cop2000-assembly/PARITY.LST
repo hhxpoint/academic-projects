@@ -1,0 +1,29 @@
+00 10B3     MOV A, #0B3H
+02 1C80     MOV 80H, A
+04 0400     MOV R0, #00H
+            P_LOOP:
+06 7080         MOV A, 80H
+08 20FF         AND A, #255
+0A A41A         JZ P_DONE
+0C 7080         MOV A, 80H
+0E 6001         SUB A, #01H
+10 0D           MOV R1, A
+11 7080         MOV A, 80H
+13 29           AND A, R1
+14 1C80         MOV 80H, A
+16 6801         ADD R0, #01H
+18 7806         JMP P_LOOP
+            P_DONE:
+1A 08           MOV A, R0
+1B 40           RR A
+1C 8022         JC P_ODD
+1E 1000         MOV A, #00H
+20 7824         JMP P_END
+            P_ODD:
+22 1001         MOV A, #01H
+            P_END:
+24 1C81         MOV 81H, A
+            END_PAR:
+26 8C           NOP
+27 7826         JMP END_PAR
+            

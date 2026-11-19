@@ -1,0 +1,10 @@
+00 7080         MOV A,80H
+02 1C90         MOV 90H,A
+04 5481         ADD A,81H
+06 1C91         MOV 91H,A
+08 5482         ADD A,82H
+0A 1C92         MOV 92H,A
+            END_S:
+0C 8C           NOP
+0D 780C         JMP END_S
+            

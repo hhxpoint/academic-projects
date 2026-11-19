@@ -1,0 +1,17 @@
+00 10B3     MOV A, #0B3H
+02 1C80     MOV 80H, A
+04 7080     MOV A, 80H
+06 44       RL A
+07 800B     JC NEG
+09 7815     JMP DONE
+            NEG:
+0B 7080         MOV A, 80H
+0D 0C           MOV R0, A
+0E 10FF         MOV A, #0FFH
+10 58           SUB A, R0
+11 5001         ADD A, #01H
+13 1C80         MOV 80H, A
+            DONE:
+15 8C           NOP
+16 7815         JMP DONE
+            

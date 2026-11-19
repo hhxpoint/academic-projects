@@ -1,0 +1,21 @@
+MOV A, #10H
+MOV 80H, A
+MOV A, 80H
+AND A, #255
+JZ NO
+MOV A, 80H
+SUB A, #01H
+MOV R0, A
+MOV A, 80H
+AND A, R0
+JZ YES
+NO:
+    MOV A, #00H
+    MOV 81H, A
+    JMP DONE
+YES:
+    MOV A, #01H
+    MOV 81H, A
+DONE:
+    NOP
+    JMP DONE

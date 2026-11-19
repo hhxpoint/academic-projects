@@ -1,0 +1,19 @@
+00 0400         MOV R0,#00H
+            LOOP:
+02 7080         MOV A,80H
+04 20FF         AND A,#0FFH
+06 A418         JZ DONE
+08 7080         MOV A,80H
+0A 6001         SUB A,#01H
+0C 1C8F         MOV 8FH,A
+0E 7080         MOV A,80H
+10 248F         AND A,8FH
+12 1C80         MOV 80H,A
+14 6801         ADD R0,#01H
+16 7802         JMP LOOP
+            DONE:
+18 08           MOV A,R0
+19 1C81         MOV 81H,A
+1B 8C           NOP
+1C 7818         JMP DONE
+            

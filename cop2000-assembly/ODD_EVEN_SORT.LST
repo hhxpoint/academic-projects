@@ -1,0 +1,145 @@
+            ; ============= 奇偶交换排序（Odd-Even Transposition Sort）=============
+            ; 功能：对内存80H~89H的10个有符号数进行升序排序
+            ; 使用移码表示法（补码+128）进行有符号数大小比较
+            ; 算法：交替执行奇数阶段和偶数阶段的相邻比较交换
+            ; ============= 初始化模块：数据转移码 =============
+00 1064     MOV A, #100     ; +100
+02 5080     ADD A, #80H     ; 转移码：228(0xE4)
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77     ; -77
+08 5080     ADD A, #80H     ; 转移码：51(0x33)
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42      ; +42
+0E 5080     ADD A, #80H     ; 转移码：170(0xAA)
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65      ; +65
+14 5080     ADD A, #80H     ; 转移码：193(0xC1)
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17      ; +17
+1A 5080     ADD A, #80H     ; 转移码：145(0x91)
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8      ; -8
+20 5080     ADD A, #80H     ; 转移码：120(0x78)
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32     ; -32
+26 5080     ADD A, #80H     ; 转移码：96(0x60)
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67      ; +67
+2C 5080     ADD A, #80H     ; 转移码：195(0xC3)
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4       ; +4
+32 5080     ADD A, #80H     ; 转移码：132(0x84)
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22      ; +22
+38 5080     ADD A, #80H     ; 转移码：150(0x96)
+3A 1C89     MOV 89H, A
+            ; ============= 奇偶交换排序模块 =============
+            ; R0：外循环计数器（n=10趟，保证完全排序）
+            ; R1：内循环指针（奇数阶段从81H开始，偶数阶段从80H开始）
+3C 040A     MOV R0, #0AH    ; 外循环计数=10（需要n趟）
+            PASS_START:
+3E 08           MOV A, R0       ; 判断是否完成所有趟
+3F 20FF         AND A, #255
+41 A499         JZ CONVERT      ; R0=0，排序完成
+            
+                ; ===== 奇数阶段：比较(81H,82H), (83H,84H), ..., (87H,88H) =====
+43 0581         MOV R1, #81H    ; 奇数阶段从地址81H开始
+            ODD_LOOP:
+45 09           MOV A, R1       ; 判断R1是否超出范围
+46 6089         SUB A, #89H
+48 804E         JC DO_ODD       ; R1<89H，继续比较
+4A A44E         JZ DO_ODD       ; R1=89H，也要比较(89H,8AH不存在，跳过)
+4C 786D         JMP EVEN_START  ; R1>89H，奇数阶段结束
+            
+            DO_ODD:
+4E 09           MOV A, R1       ; 计算R1+1
+4F 5001         ADD A, #01H
+51 0E           MOV R2, A       ; R2=R1+1
+            
+52 0A           MOV A, R2       ; 检查R1+1是否超出89H
+53 6089         SUB A, #89H
+55 805B         JC ODD_COMPARE  ; R2<89H，可以比较
+57 A45B         JZ ODD_COMPARE  ; R2=89H，可以比较
+59 786D         JMP EVEN_START  ; R2>89H，跳过
+            
+            ODD_COMPARE:
+5B 19           MOV A, @R1      ; 取arr[R1]
+5C 0F           MOV R3, A       ; 暂存
+5D 0B           MOV A, R3       ; 恢复arr[R1]
+5E 5E           SUB A, @R2      ; arr[R1] - arr[R1+1]
+5F 8069         JC ODD_NEXT     ; arr[R1] < arr[R1+1]，不交换
+            
+                ; 交换arr[R1]和arr[R1+1]
+61 1A           MOV A, @R2      ; 取arr[R1+1]
+62 1C90         MOV 90H, A      ; 暂存
+64 0B           MOV A, R3       ; 取arr[R1]
+65 16           MOV @R2, A      ; arr[R1+1] = arr[R1]
+66 7090         MOV A, 90H      ; 取暂存值
+68 15           MOV @R1, A      ; arr[R1] = 原arr[R1+1]
+            ODD_NEXT:
+69 6902         ADD R1, #02H    ; 步进2（下一对奇数位置）
+6B 7845         JMP ODD_LOOP    ; 继续奇数阶段
+            
+                ; ===== 偶数阶段：比较(80H,81H), (82H,83H), ..., (88H,89H) =====
+            EVEN_START:
+6D 0580         MOV R1, #80H    ; 偶数阶段从地址80H开始
+            EVEN_LOOP:
+6F 09           MOV A, R1       ; 判断R1是否超出范围
+70 6089         SUB A, #89H
+72 8076         JC DO_EVEN      ; R1<89H，继续比较
+74 7895         JMP PASS_DONE    ; R1>=89H，偶数阶段结束
+            
+            DO_EVEN:
+76 09           MOV A, R1       ; 计算R1+1
+77 5001         ADD A, #01H
+79 0E           MOV R2, A       ; R2=R1+1
+            
+7A 0A           MOV A, R2       ; 检查R1+1是否超出89H
+7B 6089         SUB A, #89H
+7D 8083         JC EVEN_COMPARE ; R2<89H，可以比较
+7F A483         JZ EVEN_COMPARE ; R2=89H，可以比较
+81 7895         JMP PASS_DONE   ; R2>89H，跳过
+            
+            EVEN_COMPARE:
+83 19           MOV A, @R1      ; 取arr[R1]
+84 0F           MOV R3, A       ; 暂存
+85 0B           MOV A, R3       ; 恢复arr[R1]
+86 5E           SUB A, @R2      ; arr[R1] - arr[R1+1]
+87 8091         JC EVEN_NEXT    ; arr[R1] < arr[R1+1]，不交换
+            
+                ; 交换arr[R1]和arr[R1+1]
+89 1A           MOV A, @R2      ; 取arr[R1+1]
+8A 1C90         MOV 90H, A      ; 暂存
+8C 0B           MOV A, R3       ; 取arr[R1]
+8D 16           MOV @R2, A      ; arr[R1+1] = arr[R1]
+8E 7090         MOV A, 90H      ; 取暂存值
+90 15           MOV @R1, A      ; arr[R1] = 原arr[R1+1]
+            EVEN_NEXT:
+91 6902         ADD R1, #02H    ; 步进2（下一对偶数位置）
+93 786F         JMP EVEN_LOOP   ; 继续偶数阶段
+            
+            PASS_DONE:
+95 6C01         SUB R0, #01H    ; 外循环计数减1
+97 783E         JMP PASS_START  ; 开始下一趟
+            ; ============= 补码还原模块 =============
+            CONVERT:
+99 0480         MOV R0, #80H    ; 数组起始地址
+9B 0589         MOV R1, #89H    ; 数组结束地址
+            CONV_LOOP:
+9D 19           MOV A, @R1      ; 取移码值
+9E 6080         SUB A, #80H     ; 移码转补码（减128）
+A0 0E           MOV R2, A       ; 暂存补码值
+A1 09           MOV A, R1       ; 取源地址
+A2 5010         ADD A, #10H     ; 目标地址=源地址+16
+A4 0F           MOV R3, A       ; R3为目标地址
+A5 0A           MOV A, R2       ; 取补码值
+A6 17           MOV @R3, A      ; 存入目标地址
+A7 09           MOV A, R1
+A8 58           SUB A, R0       ; R1-R0
+A9 A4AF         JZ DONE         ; 全部转换完成
+AB 6D01         SUB R1, #01H
+AD 789D         JMP CONV_LOOP
+            DONE:
+AF 8C           NOP
+B0 78AF         JMP DONE        ; 死循环结束程序
+            

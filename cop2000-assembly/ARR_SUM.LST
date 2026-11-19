@@ -1,0 +1,18 @@
+00 0490     MOV R0, #90H
+02 0508     MOV R1, #08H
+04 0600     MOV R2, #00H
+            LOOP:
+06 09           MOV A, R1
+07 6001         SUB A, #01H
+09 8015         JC DONE
+0B A415         JZ DONE
+0D 0D           MOV R1, A
+0E 0A           MOV A, R2
+0F 4C           ADD A, @R0
+10 0E           MOV R2, A
+11 6801         ADD R0, #01H
+13 7806         JMP LOOP
+            DONE:
+15 0A           MOV A, R2
+16 1C80         MOV 80H, A
+            END:

@@ -1,0 +1,17 @@
+00 1068     MOV A, #'h'
+02 1C80     MOV 80H, A
+04 7080     MOV A, 80H
+06 6061     SUB A, #61H
+08 8018     JC DONE
+0A 7080     MOV A, 80H
+0C 607B     SUB A, #7BH
+0E 8012     JC CONV
+10 7818     JMP DONE
+            CONV:
+12 7080         MOV A, 80H
+14 6020         SUB A, #20H
+16 1C80         MOV 80H, A
+            DONE:
+18 8C           NOP
+19 7818         JMP DONE
+            

@@ -1,0 +1,80 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 108A     MOV A, #8AH
+3E 1C91     MOV 91H, A
+40 0D       MOV R1, A
+41 0480     MOV R0, #80H
+43 18       MOV A, @R0
+44 1C90     MOV 90H, A
+            P1:
+46 08           MOV A, R0
+47 5002         ADD A, #02H
+49 0C           MOV R0, A
+4A 09           MOV A, R1
+4B 58           SUB A, R0
+4C A45A         JZ P2
+4E 18           MOV A, @R0
+4F 0E           MOV R2, A
+50 0A           MOV A, R2
+51 6490         SUB A, 90H
+53 8046         JC P1
+55 0A           MOV A, R2
+56 1C90         MOV 90H, A
+58 7846         JMP P1
+            P2:
+5A 108B         MOV A, #8BH
+5C 1C91         MOV 91H, A
+5E 0D           MOV R1, A
+5F 0481         MOV R0, #81H
+            P2L:
+61 09           MOV A, R1
+62 58           SUB A, R0
+63 A475         JZ OUTPUT
+65 18           MOV A, @R0
+66 0E           MOV R2, A
+67 0A           MOV A, R2
+68 6490         SUB A, 90H
+6A 806F         JC P2NX
+6C 0A           MOV A, R2
+6D 1C90         MOV 90H, A
+            P2NX:
+6F 08           MOV A, R0
+70 5002         ADD A, #02H
+72 0C           MOV R0, A
+73 7861         JMP P2L
+            OUTPUT:
+75 7090         MOV A, 90H
+77 6080         SUB A, #80H
+79 1C92         MOV 92H, A
+            DONE:
+7B 8C           NOP
+7C 787B         JMP DONE
+            

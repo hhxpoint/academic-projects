@@ -1,0 +1,12 @@
+00 7090         MOV A,90H
+02 0C           MOV R0,A
+03 7091         MOV A,91H
+05 48           ADD A,R0
+06 0C           MOV R0,A
+07 7092         MOV A,92H
+09 48           ADD A,R0
+0A 1C80         MOV 80H,A
+            DONE:
+0C 8C           NOP
+0D 780C         JMP DONE
+            

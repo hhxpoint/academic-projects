@@ -1,0 +1,26 @@
+00 7080         MOV A,80H
+02 0C           MOV R0,A
+03 7081         MOV A,81H
+05 48           ADD A,R0
+06 0C           MOV R0,A
+07 7082         MOV A,82H
+09 48           ADD A,R0
+0A 0500         MOV R1,#00H
+            DIV:
+0C 6003         SUB A,#03H
+0E 8018         JC QUOT
+10 6901         ADD R1,#01H
+12 20FF         AND A,#0FFH
+14 A41E         JZ STORE
+16 780C         JMP DIV
+            QUOT:
+18 5003         ADD A,#03H
+1A 20FF         AND A,#0FFH
+1C A41E         JZ STORE
+            STORE:
+1E 09           MOV A,R1
+1F 1C83         MOV 83H,A
+            DONE:
+21 8C           NOP
+22 7821         JMP DONE
+            

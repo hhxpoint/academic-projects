@@ -1,0 +1,55 @@
+00 1064     MOV A, #100
+02 5080     ADD A, #80H
+04 1C80     MOV 80H, A
+06 10B3     MOV A, #-77
+08 5080     ADD A, #80H
+0A 1C81     MOV 81H, A
+0C 102A     MOV A, #42
+0E 5080     ADD A, #80H
+10 1C82     MOV 82H, A
+12 1041     MOV A, #65
+14 5080     ADD A, #80H
+16 1C83     MOV 83H, A
+18 1011     MOV A, #17
+1A 5080     ADD A, #80H
+1C 1C84     MOV 84H, A
+1E 10F8     MOV A, #-8
+20 5080     ADD A, #80H
+22 1C85     MOV 85H, A
+24 10E0     MOV A, #-32
+26 5080     ADD A, #80H
+28 1C86     MOV 86H, A
+2A 1043     MOV A, #67
+2C 5080     ADD A, #80H
+2E 1C87     MOV 87H, A
+30 1004     MOV A, #4
+32 5080     ADD A, #80H
+34 1C88     MOV 88H, A
+36 1016     MOV A, #22
+38 5080     ADD A, #80H
+3A 1C89     MOV 89H, A
+3C 0480     MOV R0, #80H
+3E 18       MOV A, @R0
+3F 1C90     MOV 90H, A
+41 6801     ADD R0, #01H
+            SCAN:
+43 08           MOV A, R0
+44 608A         SUB A, #8AH
+46 A455         JZ OUTPUT
+48 18           MOV A, @R0
+49 0D           MOV R1, A
+4A 6490         SUB A, 90H
+4C 8051         JC NEXT
+4E 09           MOV A, R1
+4F 1C90         MOV 90H, A
+            NEXT:
+51 6801         ADD R0, #01H
+53 7843         JMP SCAN
+            OUTPUT:
+55 7090         MOV A, 90H
+57 6080         SUB A, #80H
+59 1C91         MOV 91H, A
+            DONE:
+5B 8C           NOP
+5C 785B         JMP DONE
+            

@@ -1,0 +1,64 @@
+00 1005     MOV A, #05H
+02 1C80     MOV 80H, A
+04 0701     MOV R3, #B0H
+06 7080     MOV A, 80H
+08 0E       MOV R2, A
+            PUSH:
+09 0A           MOV A, R2
+0A 6001         SUB A, #01H
+0C 801A         JC POP
+0E A41A         JZ POP
+10 0A           MOV A, R2
+11 17           MOV @R3, A
+12 6B01         ADD R3, #01H
+14 0A           MOV A, R2
+15 6001         SUB A, #01H
+17 0E           MOV R2, A
+18 7809         JMP PUSH
+            POP:
+1A 1001         MOV A, #01H
+1C 0E           MOV R2, A
+            POPLOOP:
+1D 0B           MOV A, R3
+1E 6001         SUB A, #B0H
+20 A449         JZ STORE
+22 6F01         SUB R3, #01H
+24 1B           MOV A, @R3
+25 0C           MOV R0, A
+26 0A           MOV A, R2
+27 0D           MOV R1, A
+28 0600         MOV R2, #00H
+            MUL:
+2A 08           MOV A, R0
+2B 20FF         AND A, #255
+2D A447         JZ MULDONE
+2F 08           MOV A, R0
+30 2001         AND A, #01H
+32 A43F         JZ SHFT
+34 08           MOV A, R0
+35 40           RR A
+36 0C           MOV R0, A
+37 0A           MOV A, R2
+38 49           ADD A, R1
+39 0E           MOV R2, A
+3A 09           MOV A, R1
+3B 44           RL A
+3C 0D           MOV R1, A
+3D 782A         JMP MUL
+            SHFT:
+3F 08           MOV A, R0
+40 40           RR A
+41 0C           MOV R0, A
+42 09           MOV A, R1
+43 44           RL A
+44 0D           MOV R1, A
+45 782A         JMP MUL
+            MULDONE:
+47 781D         JMP POPLOOP
+            STORE:
+49 0A           MOV A, R2
+4A 1C81         MOV 81H, A
+            DONE:
+4C 8C           NOP
+4D 784C         JMP DONE
+            

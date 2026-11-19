@@ -1,0 +1,44 @@
+            ;=========================================================
+            ; 程序1: 求 1²+2²+3²+4²+5² = 1+4+9+16+25 = 55 = 0x37
+            ;---------------------------------------------------------
+            ; 算法: 平方 = 把 i 累加 i 次
+            ;   外层 i 从 1 递增到 5
+            ;   内层把 i 加到 sum 共 i 次 (即 i²)
+            ; 寄存器分配:
+            ;   R0 = i (当前底数, 1→5→6退出)
+            ;   R1 = sum (总和, 贯穿全程)
+            ;   R2 = count (内层计数 = i)
+            ;   A  = 运算中转 (ADD/SUB 目的操作数)
+            ;=========================================================
+            
+                    ORG  00H
+00 1000             MOV  A, #00H
+02 0D               MOV  R1, A          ; R1 = sum = 0
+03 1001             MOV  A, #01H
+05 0C               MOV  R0, A          ; R0 = i = 1
+            
+06 08       OUTER:  MOV  A, R0
+07 0E               MOV  R2, A          ; R2 = count = i
+            
+08 09       INNER:  MOV  A, R1          ; A = sum
+09 48               ADD  A, R0          ; A = sum + i
+0A 0D               MOV  R1, A          ; sum 更新
+            
+0B 0A               MOV  A, R2          ; count--
+0C 6001             SUB  A, #01H
+0E 0E               MOV  R2, A
+0F A413             JZ   END_INNER      ; count==0 结束内层
+11 7808             JMP  INNER
+            
+            END_INNER:
+13 08               MOV  A, R0          ; i++
+14 5001             ADD  A, #01H
+16 0C               MOV  R0, A
+17 6006             SUB  A, #06H        ; i - 6
+19 A41D             JZ   DONE           ; i==6 退出
+1B 7806             JMP  OUTER
+            
+1D 09       DONE:   MOV  A, R1          ; A = sum = 55 = 0x37
+                                 ; 输出 0x37
+1E 781E     HALT:   JMP  HALT
+                    END

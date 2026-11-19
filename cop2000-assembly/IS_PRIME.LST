@@ -1,0 +1,40 @@
+00 7080         MOV A,80H
+02 6002         SUB A,#02H
+04 802B         JC NPRM
+06 A431         JZ YPRM
+08 0502         MOV R1,#02H
+            DLOOP:
+0A 7080         MOV A,80H
+0C 0600         MOV R2,#00H
+            DDIV:
+0E 59           SUB A,R1
+0F 8017         JC DEND
+11 6A01         ADD R2,#01H
+13 A417         JZ DEND
+15 780E         JMP DDIV
+            DEND:
+17 801B         JC DREST
+19 781C         JMP DCHECK
+            DREST:
+1B 49           ADD A,R1
+            DCHECK:
+1C 20FF         AND A,#255
+1E A42B         JZ NPRM
+20 09           MOV A,R1
+21 5001         ADD A,#01H
+23 0D           MOV R1,A
+24 09           MOV A,R1
+25 6480         SUB A,80H
+27 A431         JZ YPRM
+29 780A         JMP DLOOP
+            NPRM:
+2B 1000         MOV A,#00H
+2D 1C81         MOV 81H,A
+2F 7835         JMP FIN
+            YPRM:
+31 1001         MOV A,#01H
+33 1C81         MOV 81H,A
+            FIN:
+35 8C           NOP
+36 7836         JMP $
+            
