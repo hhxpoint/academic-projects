@@ -115,3 +115,25 @@ Get-ChildItem cpp-console -Recurse -Filter *.sln
 ## License
 
 MIT License，详见 [LICENSE](LICENSE)。
+
+
+---
+
+## 子项目
+
+| 目录 | 内容 |
+|---|---|
+| `assembly/` | 8086 汇编实验：MASM/TASM 源码、LST 清单、运行说明 |
+| `cpp/` | C++ 控制台课程设计：链表、文件、面向对象练习 |
+| `docs/` | 实验报告与截图（已脱敏） |
+
+## 运行环境
+
+- 汇编：DOSBox + MASM/TASM（或 Cop2000 仿真器）
+- C++：Visual Studio / g++（C++11+）
+
+## 说明
+
+- 原始 Cop2000 商业仿真器、PDF 未纳入仓库；
+- 报告中的姓名/学号已移除；
+- 每个子目录均有独立 README。
